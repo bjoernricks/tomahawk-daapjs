@@ -1,5 +1,6 @@
 /*
  * (c) 2013 Julian Xhokaxhiu <http://julianxhokaxhiu.com>
+ * (c) 2016 Björn Ricks <bjoern.ricks@gmail.com>
  */
 (function(window, Tomahawk, DaapClient) {
 'use strict';
