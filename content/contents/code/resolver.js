@@ -1,6 +1,7 @@
 /*
  * (c) 2013 Julian Xhokaxhiu <http://julianxhokaxhiu.com>
  */
+(function(window, Tomahawk, DaapClient) {
 'use strict';
 var DaapJSResolver = Tomahawk.extend(TomahawkResolver,{
     ready: false,
@@ -291,3 +292,5 @@ var daapCollection = Tomahawk.extend(Tomahawk.Collection, {
 });
 
 Tomahawk.resolver.instance = DaapJSResolver;
+
+})(window, Tomahawk, DaapClient);
