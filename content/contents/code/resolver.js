@@ -17,6 +17,27 @@ var DaapJSResolver = Tomahawk.extend(TomahawkResolver,{
         weight: 75,
         timeout: 5
     },
+
+    configUi: [
+        {
+            id: 'host',
+            label: 'Host',
+            widget: 'serverEdit',
+            type: 'textfield',
+        },
+        {
+            id: 'port',
+            label: 'Port',
+            type: 'textfield',
+        },
+        {
+            id: 'password',
+            label: 'Password',
+            type: 'textfield',
+            isPassword: true,
+        }
+    ],
+
     init: function() {
         var userConfig = this.getUserConfig();
 
