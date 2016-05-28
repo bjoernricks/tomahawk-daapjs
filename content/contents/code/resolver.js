@@ -197,13 +197,19 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             } else {
                 Tomahawk.log('Could not login to the DAAP server: ' +
                         '[HTML Status code = ' + code + ']');
+
             }
         };
         var streamsFetched = function(code, streams) {
             if (code === 200) {
+
+                Tomahawk.log(streams.length + ' tracks fetched.');
+
                 self.tracks = self.fixDB(streams);
-                Tomahawk.log('Ready!');
                 self.ready = true;
+
+                Tomahawk.log('Ready!');
+
                 Tomahawk.reportCapabilities(
                         TomahawkResolverCapability.Browsable);
                 window.localStorage.setItem('DJS_tracks',
