@@ -55,7 +55,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             this.tracks = JSON.parse(cachedSongs);
             this.ready = true;
 
-            Tomahawk.reportCapabilities(TomahawkResolverCapability.Browsable);
+            this._registerTracks();
         } else {
             this.connectToServer();
         }
@@ -172,11 +172,12 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
 
                 Tomahawk.log('Ready!');
 
-                Tomahawk.reportCapabilities(
-                        TomahawkResolverCapability.Browsable);
                 window.localStorage.setItem('DJS_tracks',
                         JSON.stringify(self.tracks));
                 window.localStorage.setItem('DJS_tracks_ts',new Date());
+
+                self._registerTracks();
+
             }
             else {
                 Tomahawk.log('Could not fetch streams: ' +
@@ -221,6 +222,24 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 daapid: song.id,
             };
         }
+    },
+
+    _registerTracks: function() {
+        var self = this;
+        daapCollection.wipe({
+            id: daapCollection.settings.id,
+        }).then(function() {
+            return daapCollection.addTracks({
+                id: daapCollection.settings.id,
+                tracks: self.tracks,
+            });
+        }).then(function() {
+            /* register collection after wipe has finished to show the
+             * correct number of tracks in Tomahawk */
+            Tomahawk.PluginManager.registerPlugin('collection',
+                    daapCollection);
+
+        });
     },
 });
 
