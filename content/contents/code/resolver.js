@@ -147,81 +147,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         Tomahawk.addTrackResults(ret);
     },
 
-    //ScriptCollection
-    artists: function(qid) {
-        var ret = {};
-        if (this.ready) {
-            var len = this.songs.length;
-            for (var i = 0; i < len; i++) {
-                var song = this.songs[i];
-                var key = song.artist;
-                // A better way handling duplicate keys with massive performance :)
-                // Thanks to <Jonathan Sampson> from http://stackoverflow.com/questions/10757516/how-to-prevent-adding-duplicate-keys-to-a-javascript-array
-                if (!(key in ret)) {
-                    ret[key] = 0;
-                }
-            }
-        }
-        Tomahawk.addArtistResults({
-            qid: qid,
-            artists: Object.keys(ret)
-        });
-    },
-
-    albums: function(qid, artist) {
-        var ret = {};
-        if (this.ready) {
-            var len = this.songs.length;
-            for (var i = 0; i < len; i++) {
-                var song = this.songs[i];
-                var key = song.album;
-                // A better way handling duplicate keys with massive performance :)
-                // Thanks to <Jonathan Sampson> from http://stackoverflow.com/questions/10757516/how-to-prevent-adding-duplicate-keys-to-a-javascript-array
-                if ((song.artist === artist) && !(key in ret)) {
-                    ret[key] = 0;
-                }
-            }
-        }
-        Tomahawk.addAlbumResults({
-            qid: qid,
-            artist: artist,
-            albums: Object.keys(ret)
-        });
-    },
-    tracks: function(qid, artist, album) {
-        var ret = {};
-        if (this.ready) {
-            var len = this.songs.length;
-            for (var i = 0; i < len; i++) {
-                var song = this.songs[i];
-                var key = song.title;
-                // A better way handling duplicate keys with massive performance :)
-                // Thanks to <Jonathan Sampson> from http://stackoverflow.com/questions/10757516/how-to-prevent-adding-duplicate-keys-to-a-javascript-array
-                if ((song.artist === artist) && (song.album === album) &&
-                        !(key in ret)) {
-                    ret[key] = this.getSongItem(song);
-                }
-            }
-        }
-        Tomahawk.addAlbumTrackResults({
-            qid: qid,
-            artist: artist,
-            album: album,
-            results: this.objectValues(ret)
-        });
-    },
-
-    collection: function() {
-        if (this.ready) {
-            return {
-                prettyname: 'DAAP',
-                description: this.host,
-                iconfile: 'daapjs.png',
-                trackcount: this.songs.length
-            };
-        }
-    },
-
     // UTILITY
     fixItem: function(item) {
         var ret = 'N/A';
@@ -294,14 +219,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         };
         // start with unsecure login - no password.
         client.login(loginCompleted);
-    },
-
-    objectValues: function(obj) {
-        var tmp = [];
-        for (var k in obj) {
-            tmp.push(obj[k]);
-        }
-        return tmp;
     },
 
     getDaysOld: function() {
