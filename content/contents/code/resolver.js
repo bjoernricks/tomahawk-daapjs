@@ -8,7 +8,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     apiVersion: 0.9,
 
     ready: false,
-    songs: null,
+    tracks: null,
 
     settings:
     {
@@ -41,7 +41,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     init: function() {
         var userConfig = this.getUserConfig();
 
-        var cachedSongs = window.localStorage.getItem('DJS_songs');
+        var cachedSongs = window.localStorage.getItem('DJS_tracks');
         if (cachedSongs && this.getDaysOld() < 1) {
             if (userConfig !== undefined) {
                 this.host = userConfig.host;
@@ -49,7 +49,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
 
             Tomahawk.log('Loading the existing cache...');
 
-            this.songs = JSON.parse(cachedSongs);
+            this.tracks = JSON.parse(cachedSongs);
             this.ready = true;
 
             Tomahawk.reportCapabilities(TomahawkResolverCapability.Browsable);
@@ -115,9 +115,9 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         var ret = [];
 
         if (this.ready) {
-            var len = this.songs.length;
+            var len = this.tracks.length;
             for (var i = 0; i < len; i++) {
-                var song = this.songs[i];
+                var song = this.tracks[i];
                 if (song.track === track &&
                         song.artist === artist &&
                         song.album === album) {
@@ -132,9 +132,9 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         var ret = [];
         var searchString = params.query;
         if (this.ready) {
-            var len = this.songs.length;
+            var len = this.tracks.length;
             for (var i = 0; i < len; i++) {
-                var song = this.songs[i];
+                var song = this.tracks[i];
                 if (searchString === '#ALLDAAPDB#' ||
                     song.title.toLowerCase().indexOf(searchString) > -1 ||
                     song.artist.toLowerCase().indexOf(searchString) > -1 ||
@@ -203,14 +203,14 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         };
         var streamsFetched = function(code, streams) {
             if (code === 200) {
-                _this.songs = _this.fixDB(streams);
+                _this.tracks = _this.fixDB(streams);
                 Tomahawk.log('Ready!');
                 _this.ready = true;
                 Tomahawk.reportCapabilities(
                         TomahawkResolverCapability.Browsable);
-                window.localStorage.setItem('DJS_songs',
+                window.localStorage.setItem('DJS_tracks',
                         JSON.stringify(streams));
-                window.localStorage.setItem('DJS_songs_ts',new Date());
+                window.localStorage.setItem('DJS_tracks_ts',new Date());
             }
             else {
                 Tomahawk.log('Could not fetch streams: ' +
@@ -223,7 +223,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
 
     getDaysOld: function() {
         var ret = 0;
-        var cacheDate = window.localStorage.getItem('DJS_songs_ts');
+        var cacheDate = window.localStorage.getItem('DJS_tracks_ts');
         if (cacheDate) {
             var diff = new Date(new Date() - cacheDate);
             if (diff.getUTCSeconds() > 0) {
