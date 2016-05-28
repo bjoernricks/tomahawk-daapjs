@@ -89,18 +89,28 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         };
     },
 
-    newConfigSaved: function() {
-        var userConfig = this.getUserConfig();
-        if ((userConfig.host != this.host) ||
-                (userConfig.port != this.port) ||
-                (userConfig.password != this.password)) {
-            this.host = (userConfig.host ? userConfig.host : 'localhost');
-            this.port = (userConfig.port ? userConfig.port : 3689);
-            this.password = userConfig.password;
-            this.saveUserConfig();
+    newConfigSaved: function(config) {
+        var self = this;
 
-            // Connect to the server
+        var changed =
+            this.host !== config.host ||
+            this.port !== config.port ||
+            this.password !== config.password;
+
+        if (changed) {
+
+            Tomahawk.log('Config has changed. Trying to connect to server.');
+
+            /* remove already reported tracks */
+            var id = daapCollection.settings.id;
+            daapCollection.wipe({id: id}).then(function() {
+                self.init();
+            });
+        }
+        else {
+            Tomahawk.log('Config has not changed.');
             if (!this.ready) {
+                /* try to connect again */
                 this.connectToServer();
             }
         }
