@@ -117,42 +117,35 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     },
 
     resolve: function(params) {
-        var artist = params.artist;
-        var album = params.album;
-        var track = params.track;
-        var ret = [];
+        Tomahawk.log('Try to resolve ' + JSON.stringify(params));
 
-        if (this.ready) {
-            var len = this.tracks.length;
-            for (var i = 0; i < len; i++) {
-                var song = this.tracks[i];
-                if (song.track === track &&
-                        song.artist === artist &&
-                        song.album === album) {
-                    ret.push(song);
-                }
-            }
+        if (!this.ready) {
+            return [];
         }
-        return ret;
+
+        return this.tracks.filter(function(track) {
+            return (track.track === params.track &&
+                    track.artist === params.artist &&
+                    track.album === params.album);
+        });
     },
 
     search: function(params) {
-        var ret = [];
         var searchString = params.query;
-        if (this.ready) {
-            var len = this.tracks.length;
-            for (var i = 0; i < len; i++) {
-                var song = this.tracks[i];
-                if (searchString === '#ALLDAAPDB#' ||
+
+        Tomahawk.log('Searching for ' + searchString);
+
+        if (!this.ready) {
+            return [];
+        }
+
+        return this.tracks.filter(function(track) {
+            return (searchString === '#ALLDAAPDB#' ||
                     song.title.toLowerCase().indexOf(searchString) > -1 ||
                     song.artist.toLowerCase().indexOf(searchString) > -1 ||
                     song.album.toLowerCase().indexOf(searchString) > -1 ||
-                    song.genre.toLowerCase().indexOf(searchString) > -1) {
-                    ret.results.push(song);
-                }
-            }
-        }
-        Tomahawk.addTrackResults(ret);
+                    song.genre.toLowerCase().indexOf(searchString) > -1);
+        });
     },
 
     // UTILITY
