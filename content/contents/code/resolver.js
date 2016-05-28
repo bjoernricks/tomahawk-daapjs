@@ -188,6 +188,15 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         client.login(loginCompleted);
     },
 
+    disconnect: function() {
+        if (this.ready) {
+            /* remove collection because we shouldn't access it anymore */
+            Tomahawk.PluginManager.unregisterPlugin('collection',
+                daapCollection);
+            this.ready = false;
+        }
+    },
+
     getDaysOld: function() {
         var ret = 0;
         var cacheDate = window.localStorage.getItem('DJS_tracks_ts');
