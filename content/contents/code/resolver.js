@@ -197,7 +197,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 Tomahawk.reportCapabilities(
                         TomahawkResolverCapability.Browsable);
                 window.localStorage.setItem('DJS_tracks',
-                        JSON.stringify(streams));
+                        JSON.stringify(self.tracks));
                 window.localStorage.setItem('DJS_tracks_ts',new Date());
             }
             else {
