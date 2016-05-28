@@ -146,28 +146,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     },
 
     // UTILITY
-    fixItem: function(item) {
-        var ret = 'N/A';
-        if (item) {
-            if ((typeof item) === 'string') {
-                ret = item.length ? item : 'N/A';
-            }
-            else if ((typeof item) === 'number') {
-                ret = item > 0 ? item : 0;
-            }
-        }
-        return ret;
-    },
-    fixDB: function(arr) {
-        var _this = this;
-        return arr.map(function(e) {
-            for (var k in e) {
-                e[k] = _this.fixItem(e[k]);
-            }
-            return e;
-        });
-    },
-
     connectToServer: function() {
         var self = this;
         var client = new DaapClient(this.host, this.port);
