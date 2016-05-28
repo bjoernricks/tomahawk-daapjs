@@ -8,7 +8,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     apiVersion: 0.9,
 
     ready: false,
-    tracks: null,
+    tracks: [],
 
     settings:
     {
