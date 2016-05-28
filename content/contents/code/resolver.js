@@ -4,7 +4,7 @@
  */
 (function(window, Tomahawk, DaapClient) {
 'use strict';
-var DaapJSResolver = Tomahawk.extend(TomahawkResolver,{
+var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     apiVersion: 0.9,
 
     ready: false,
