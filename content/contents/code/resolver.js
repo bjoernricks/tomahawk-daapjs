@@ -48,17 +48,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         this.port = userConfig.port ? userConfig.port : 3689;
         this.password = userConfig.password;
 
-        var cachedSongs = window.localStorage.getItem('DJS_tracks');
-        if (cachedSongs && this.getDaysOld() < 1) {
-            Tomahawk.log('Loading the existing cache...');
-
-            this.tracks = JSON.parse(cachedSongs);
-            this.ready = true;
-
-            this._registerTracks();
-        } else {
-            this.connectToServer();
-        }
+        this.connectToServer();
     },
 
     getConfigUi: function() {
@@ -173,12 +163,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 self.tracks = self._convertSongs(streams);
                 self.ready = true;
 
-                Tomahawk.log('Ready!');
-
-                window.localStorage.setItem('DJS_tracks',
-                        JSON.stringify(self.tracks));
-                window.localStorage.setItem('DJS_tracks_ts',new Date());
-
                 self._registerTracks();
 
             }
@@ -198,18 +182,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 daapCollection);
             this.ready = false;
         }
-    },
-
-    getDaysOld: function() {
-        var ret = 0;
-        var cacheDate = window.localStorage.getItem('DJS_tracks_ts');
-        if (cacheDate) {
-            var diff = new Date(new Date() - cacheDate);
-            if (diff.getUTCSeconds() > 0) {
-                ret = diff.getUTCSeconds() / (24 * 60 * 60);
-            }
-        }
-        return ret;
     },
 
     _convertSongs: function(songs) {
