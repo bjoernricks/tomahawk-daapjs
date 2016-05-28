@@ -329,4 +329,4 @@ var daapCollection = Tomahawk.extend(Tomahawk.Collection, {
 Tomahawk.resolver.instance = DaapJSResolver;
 
 })(window, Tomahawk, DaapClient);
-// vim: set ts=2 sw=2 tw=80:
+// vim: set ts=4 sw=4 tw=80:
