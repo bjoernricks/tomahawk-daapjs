@@ -229,7 +229,8 @@ var daapCollection = Tomahawk.extend(Tomahawk.Collection, {
     settings: {
         id: 'daap',
         prettyname: 'DAAP Library',
-        iconfile: 'contents/images/icon.png'
+        iconfile: 'contents/images/icon.png',
+        description: 'A Digital Audio Access Protocol (DAAP) Collection',
     }
 });
 
