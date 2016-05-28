@@ -189,7 +189,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
 
                 Tomahawk.log(streams.length + ' tracks fetched.');
 
-                self.tracks = self.fixDB(streams);
+                self.tracks = self._convertSongs(streams);
                 self.ready = true;
 
                 Tomahawk.log('Ready!');
@@ -219,6 +219,11 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }
         }
         return ret;
+    },
+
+    _convertSongs: function(songs) {
+        songs = songs || [];
+        return songs.map(this._convertSong);
     },
 
     _convertSong: function(song) {
