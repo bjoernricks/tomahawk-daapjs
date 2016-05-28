@@ -119,7 +119,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 if (song.track === track &&
                         song.artist === artist &&
                         song.album === album) {
-                    ret.push(this._convertSong(song));
+                    ret.push(song);
                 }
             }
         }
@@ -138,7 +138,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                     song.artist.toLowerCase().indexOf(searchString) > -1 ||
                     song.album.toLowerCase().indexOf(searchString) > -1 ||
                     song.genre.toLowerCase().indexOf(searchString) > -1) {
-                    ret.results.push(this._convertSong(song));
+                    ret.results.push(song);
                 }
             }
         }
