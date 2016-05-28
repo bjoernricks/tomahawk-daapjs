@@ -185,7 +185,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     },
 
     connectToServer: function() {
-        var _this = this;
+        var self = this;
         var client = new DaapClient(this.host, this.port);
         var loginCompleted = function(code) {
             if (code === 200) {
@@ -193,7 +193,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                         'take a while...');
                 client.fetchStreams(streamsFetched);
             } else if (code == 401) {
-                client.secureLogin(_this.password, loginCompleted);
+                client.secureLogin(self.password, loginCompleted);
             } else {
                 Tomahawk.log('Could not login to the DAAP server: ' +
                         '[HTML Status code = ' + code + ']');
@@ -201,9 +201,9 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         };
         var streamsFetched = function(code, streams) {
             if (code === 200) {
-                _this.tracks = _this.fixDB(streams);
+                self.tracks = self.fixDB(streams);
                 Tomahawk.log('Ready!');
-                _this.ready = true;
+                self.ready = true;
                 Tomahawk.reportCapabilities(
                         TomahawkResolverCapability.Browsable);
                 window.localStorage.setItem('DJS_tracks',
