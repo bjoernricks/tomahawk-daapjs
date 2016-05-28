@@ -62,6 +62,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }
         }
     },
+
     getConfigUi: function() {
         var uiData = Tomahawk.readBase64('config.ui');
         return {
@@ -89,6 +90,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }]
         };
     },
+
     newConfigSaved: function() {
         var userConfig = this.getUserConfig();
         if ((userConfig.host != this.host) ||
@@ -105,6 +107,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }
         }
     },
+
     resolve: function(params) {
         var artist = params.artist;
         var album = params.album;
@@ -124,6 +127,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         }
         return ret;
     },
+
     search: function(params) {
         var ret = [];
         var searchString = params.query;
@@ -163,6 +167,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             artists: Object.keys(ret)
         });
     },
+
     albums: function(qid, artist) {
         var ret = {};
         if (this.ready) {
@@ -205,6 +210,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             results: this.objectValues(ret)
         });
     },
+
     collection: function() {
         if (this.ready) {
             return {
@@ -238,6 +244,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             return e;
         });
     },
+
     getSongItem: function(song) {
         if (song) {
             return {
@@ -253,6 +260,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             };
         }
     },
+
     connectToServer: function() {
         var _this = this;
         var client = new DaapClient(this.host, this.port);
@@ -287,6 +295,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         // start with unsecure login - no password.
         client.login(loginCompleted);
     },
+
     objectValues: function(obj) {
         var tmp = [];
         for (var k in obj) {
@@ -294,6 +303,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
         }
         return tmp;
     },
+
     getDaysOld: function() {
         var ret = 0;
         var cacheDate = window.localStorage.getItem('DJS_songs_ts');
