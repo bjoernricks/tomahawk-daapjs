@@ -119,7 +119,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                 if (song.track === track &&
                         song.artist === artist &&
                         song.album === album) {
-                    ret.push(this.getSongItem(song));
+                    ret.push(this._convertSong(song));
                 }
             }
         }
@@ -138,7 +138,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
                     song.artist.toLowerCase().indexOf(searchString) > -1 ||
                     song.album.toLowerCase().indexOf(searchString) > -1 ||
                     song.genre.toLowerCase().indexOf(searchString) > -1) {
-                    ret.results.push(this.getSongItem(song));
+                    ret.results.push(this._convertSong(song));
                 }
             }
         }
@@ -166,22 +166,6 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }
             return e;
         });
-    },
-
-    getSongItem: function(song) {
-        if (song) {
-            return {
-                artist: song.artist,
-                album: song.album,
-                track: song.title,
-                url: song.uri,
-                bitrate: song.bitrate,
-                duration: Math.round(song.duration / 1000),
-                size: song.size,
-                score: 1.0,
-                extension: song.format,
-            };
-        }
     },
 
     connectToServer: function() {
@@ -235,7 +219,26 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
             }
         }
         return ret;
-    }
+    },
+
+    _convertSong: function(song) {
+        if (song) {
+            return {
+                artist: song.artist,
+                album: song.album,
+                track: song.title,
+                url: song.uri,
+                bitrate: song.bitrate,
+                duration: Math.round(song.duration / 1000),
+                size: song.size,
+                releaseyear: song.year,
+                albumpos: song.trackNumber,
+                genre: song.genre,
+                extension: song.format,
+                daapid: song.id,
+            };
+        }
+    },
 });
 
 var daapCollection = Tomahawk.extend(Tomahawk.Collection, {
