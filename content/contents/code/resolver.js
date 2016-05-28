@@ -41,12 +41,15 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
     init: function() {
         var userConfig = this.getUserConfig();
 
+        Tomahawk.log('Init DAAP resolver with user config ' +
+            JSON.stringify(userConfig));
+        //
+        this.host = userConfig.host ? userConfig.host : 'localhost';
+        this.port = userConfig.port ? userConfig.port : 3689;
+        this.password = userConfig.password;
+
         var cachedSongs = window.localStorage.getItem('DJS_tracks');
         if (cachedSongs && this.getDaysOld() < 1) {
-            if (userConfig !== undefined) {
-                this.host = userConfig.host;
-            }
-
             Tomahawk.log('Loading the existing cache...');
 
             this.tracks = JSON.parse(cachedSongs);
@@ -54,12 +57,7 @@ var DaapJSResolver = Tomahawk.extend(Tomahawk.Resolver,{
 
             Tomahawk.reportCapabilities(TomahawkResolverCapability.Browsable);
         } else {
-            if (userConfig !== undefined) {
-                this.host = userConfig.host;
-                this.port = userConfig.port;
-                this.password = userConfig.password;
-                this.connectToServer();
-            }
+            this.connectToServer();
         }
     },
 
